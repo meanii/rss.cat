@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  rsscat:
+    build: .
+    container_name: rsscat-bot
+    environment:
+      - TOKEN=${TOKEN}
+    volumes:
+      - rsscat-db:/app/rss.cat.db
+    restart: unless-stopped
+volumes:
+  rsscat-db:
