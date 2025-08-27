@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"os"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -10,7 +11,15 @@ import (
 var SqlDB *gorm.DB
 
 func NewSqlConn(name string) (*gorm.DB, error) {
-	db, err := gorm.Open(sqlite.Open(fmt.Sprintf("%s.db", name)), &gorm.Config{})
+	cwd, _ := os.Getwd()
+	dbfile := fmt.Sprintf("%s/data/%s.db", cwd, name)
+
+	// create data directory if not exists
+	if err := os.MkdirAll(fmt.Sprintf("%s/data", cwd), os.ModePerm); err != nil {
+		return nil, err
+	}
+
+	db, err := gorm.Open(sqlite.Open(dbfile), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}

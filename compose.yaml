@@ -6,7 +6,5 @@ services:
     environment:
       - TOKEN=${TOKEN}
     volumes:
-      - rsscat-db:/app/rss.cat.db
+      - ./data:/app/data
     restart: unless-stopped
-volumes:
-  rsscat-db:
