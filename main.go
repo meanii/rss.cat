@@ -52,6 +52,7 @@ func main() {
 	dispatcher.AddHandler(handlers.NewCommand("help", commands.Help))
 	dispatcher.AddHandler(handlers.NewCommand("myfeeds", commands.MyFeeds))
 	dispatcher.AddHandler(handlers.NewCommand("stats", commands.Stats))
+	dispatcher.AddHandler(handlers.NewCommand("remove", commands.Remove))
 
 	// Start receiving updates.
 	err = updater.StartPolling(b, &ext.PollingOpts{

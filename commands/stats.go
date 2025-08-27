@@ -15,7 +15,7 @@ func Stats(b *gotgbot.Bot, ctx *ext.Context) error {
 	var notifCount int64
 	database.SqlDB.Model(&database.User{}).Count(&userCount)
 	database.SqlDB.Model(&database.Rss{}).Count(&rssCount)
-	database.SqlDB.Model(&database.Rss{}).Select("SUM(notification_count)").Scan(&notifCount)
+	database.SqlDB.Unscoped().Model(&database.Rss{}).Select("SUM(notification_count)").Scan(&notifCount)
 	msg := fmt.Sprintf(
 		"*RSS.cat Bot Stats*\n\nI am currently servicing *%d* RSS feeds and have reached *%d* users!\n\nA total of *%d* RSS notifications have been sent across all users.",
 		rssCount, userCount, notifCount,

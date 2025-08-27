@@ -14,7 +14,7 @@ func StartRSSBackgroundJob(bot *gotgbot.Bot) {
 	go func() {
 		for {
 			var feeds []database.Rss
-			database.SqlDB.Where("active = ?", true).Find(&feeds)
+			database.SqlDB.Find(&feeds)
 			fp := gofeed.NewParser()
 			for _, feed := range feeds {
 				parsed, err := fp.ParseURL(feed.Link)

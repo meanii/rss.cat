@@ -49,10 +49,17 @@ func Add(b *gotgbot.Bot, ctx *ext.Context) error {
 		return nil
 	}
 
+	// Get the latest item GUID if available
+	var lastItemGUID string
+	if len(feed.Items) > 0 {
+		lastItemGUID = feed.Items[0].GUID
+	}
+
 	// Store in database
 	rss := database.Rss{
-		Link:    rssURL,
-		OwnerId: ctx.EffectiveMessage.From.Id,
+		Link:         rssURL,
+		OwnerId:      ctx.EffectiveMessage.From.Id,
+		LastItemGUID: lastItemGUID,
 	}
 	err = database.SqlDB.Create(&rss).Error
 	if err != nil {

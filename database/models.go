@@ -24,14 +24,13 @@ type User struct {
 // Rss for links, and subscribers
 type Rss struct {
 	gorm.Model
-	ID                int          `gorm:"primaryKey"`
-	OwnerId           int64        `gorm:"column:owner_id"`
-	Link              string       `gorm:"column:link"`
-	LastItemGUID      string       `gorm:"size:255;column:last_item_guid"`
-	Active            sql.NullBool `gorm:"default:true;column:active"`
-	Subscribers       []User       `gorm:"foreignKey:UserId"`
-	NotificationCount int64        `gorm:"default:0;column:notification_count"`
-	CreatedAt         time.Time    `gorm:"autoCreateTime"`
+	ID                int       `gorm:"primaryKey"`
+	OwnerId           int64     `gorm:"column:owner_id"`
+	Link              string    `gorm:"column:link"`
+	LastItemGUID      string    `gorm:"size:255;column:last_item_guid"`
+	Subscribers       []User    `gorm:"foreignKey:UserId"`
+	NotificationCount int64     `gorm:"default:0;column:notification_count"`
+	CreatedAt         time.Time `gorm:"autoCreateTime"`
 	UpdatedAt         time.Time
 	DeletedAt         gorm.DeletedAt `gorm:"index"`
 }

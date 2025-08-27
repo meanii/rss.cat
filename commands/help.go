@@ -13,12 +13,14 @@ Here are the available commands:
 
 /start - Welcome message and introduction
 /add <rss-url> - Subscribe to an RSS feed
+/remove <rss-url> - Remove an RSS feed from your subscriptions
 /myfeeds - List all RSS feeds you have added
 /stats - Show bot statistics (users, RSS feeds, notifications sent)
 /help - Show this help message
 
 *How to use:*
 - Use /add followed by a valid RSS feed URL to subscribe.
+- Use /remove followed by a valid RSS feed URL to unsubscribe (removal is soft, notification count is preserved).
 - Use /myfeeds to view all your added RSS feeds.
 - Use /stats to see bot statistics.
 - You will receive updates when new items are published.
