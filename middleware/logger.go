@@ -9,6 +9,7 @@ import (
 
 	"github.com/PaulSonOfLars/gotgbot/v2"
 	"github.com/meanii/rss.cat/database"
+	"gorm.io/gorm"
 )
 
 type LoggerBotClient struct {
@@ -22,10 +23,16 @@ func (b LoggerBotClient) RequestWithContext(ctx context.Context, token string, m
 		if err != nil {
 			return nil, err
 		}
-		user := database.User{
-			UserId: chatIDInt64,
+		var user database.User
+		result := database.SqlDB.Where("user_id = ?", chatIDInt64).First(&user)
+		if result.Error != nil && result.Error == gorm.ErrRecordNotFound {
+			// User not found, create new
+			user = database.User{UserId: chatIDInt64}
+			database.SqlDB.Create(&user)
+		} else {
+			// User exists, update fields if needed
+			database.SqlDB.Save(&user)
 		}
-		database.SqlDB.Save(&user)
 	}
 
 	// Call the next bot client instance in the middleware chain.
