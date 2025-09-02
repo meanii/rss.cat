@@ -6,6 +6,7 @@ import (
 
 	"github.com/PaulSonOfLars/gotgbot/v2"
 	"github.com/meanii/rss.cat/database"
+	"github.com/meanii/rss.cat/util"
 	"github.com/mmcdole/gofeed"
 )
 
@@ -23,9 +24,11 @@ func StartRSSBackgroundJob(bot *gotgbot.Bot) {
 					continue
 				}
 				latest := parsed.Items[0]
-				if feed.LastItemGUID != latest.GUID {
+				// Use util.GetItemUniqueID for best practice unique identifier
+				itemID := util.GetItemUniqueID(latest)
+				if feed.LastItemGUID != itemID {
 					// Update last item GUID in DB
-					database.SqlDB.Model(&feed).Update("last_item_guid", latest.GUID)
+					database.SqlDB.Model(&feed).Update("last_item_guid", itemID)
 					// Extract website from feed.Link
 					website := feed.Link
 					if parsed.FeedLink != "" {
@@ -40,7 +43,7 @@ func StartRSSBackgroundJob(bot *gotgbot.Bot) {
 					database.SqlDB.Model(&feed).Update("notification_count", feed.NotificationCount+1)
 				}
 			}
-			time.Sleep(5 * time.Minute)
+			time.Sleep(5 * time.Minute) // Check every 5 minutes
 		}
 	}()
 }

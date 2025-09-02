@@ -6,6 +6,7 @@ import (
 	"github.com/PaulSonOfLars/gotgbot/v2"
 	"github.com/PaulSonOfLars/gotgbot/v2/ext"
 	"github.com/meanii/rss.cat/database"
+	"github.com/meanii/rss.cat/util"
 	"github.com/mmcdole/gofeed"
 )
 
@@ -49,10 +50,10 @@ func Add(b *gotgbot.Bot, ctx *ext.Context) error {
 		return nil
 	}
 
-	// Get the latest item GUID if available
+	// Get the latest item unique identifier using util.GetItemUniqueID
 	var lastItemGUID string
 	if len(feed.Items) > 0 {
-		lastItemGUID = feed.Items[0].GUID
+		lastItemGUID = util.GetItemUniqueID(feed.Items[0])
 	}
 
 	// Store in database
